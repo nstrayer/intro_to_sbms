@@ -211,6 +211,8 @@ class: middle
 
 > [Non-SBM attempts] express implicit modeling restrictions and assumptions in their output... Stochastic block models have the advantage of explicitly stating the underlying assumptions, which improves the interpretability of the results.
 
+Larremore et al. - [Efficiently inferring community structure in bipartite networks](https://arxiv.org/pdf/1403.2933.pdf)
+
 ---
 
 # In a nutshell
@@ -363,3 +365,26 @@ class: middle
 class: middle, center
 
 ## [Demo](http://nickstrayer.me/sbmR/articles/sampling_from_posterior.html)
+
+
+---
+
+class: middle
+
+# Resources
+
+![:space 15]
+
+[Bayesian stochastic blockmodeling](https://arxiv.org/pdf/1705.10225.pdf): Paper by Tiago Peixoto covering SBMs from the ground up. 
+
+![:space 5]
+
+
+[Efficiently inferring community structure in bipartite networks](https://arxiv.org/pdf/1403.2933.pdf): Paper looking at the use of SBMs for bipartite networks.
+
+![:space 5]
+
+
+[Graph-Tool Inference Docs](https://graph-tool.skewed.de/static/doc/demos/inference/inference.html): Documentation for Graph-Tool library that serves as a great intro to the math and logic behind SBMs. 
+
+
