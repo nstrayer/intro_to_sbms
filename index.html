@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Intro to SBMs</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Nick Strayer" />
+    <meta name="date" content="2020-02-21" />
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/font-awesome-5.3.1/css/fontawesome-all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Intro to SBMs
+### Nick Strayer
+### Vanderbilt University
+### 2020-02-21
+
+---
+
+
+
+
+class: middle
+
+.pull-left[
+# Layout
+
+
+- Networks, what and why
+- What is an SBM?
+- SBMs in use
+
+]
+.pull-right[
+
+## Slides
+
+&lt;div style="text-align:right; font-size: 5rem;"&gt;
+
+<i class="fas  fa-arrow-down fa-lg fa-fw " style="color:#e34a33;"></i>
+
+&lt;/div&gt;
+]
+
+
+
+---
+class:middle
+
+# Networks, what and why
+
+
+---
+
+class: middle
+
+![:centerPic 80](figs/vertex_defn.jpg)
+
+
+---
+
+class: middle
+
+![:centerPic 80](figs/edge_defn.jpg)
+
+
+---
+
+class: middle
+
+![:centerPic 80](figs/degree_defn.jpg)
+
+
+---
+
+class: middle
+
+![:centerPic 70](figs/bipartite_defn.jpg)
+
+
+
+
+---
+
+# Electronic medical records (EHR)
+
+![:space 1]()
+
+In an effort to make healthcare more efficient EHR systems have become common in the US. 
+
+![:space 3]()
+.pull-left[
+<i class="fas  fa-file-invoice-dollar fa-lg fa-fw " style="color:#e34a33;"></i> While originally made for billing purposes there is still a huge sum of information that, with careful effort, _hopefully_, can be extracted for research.
+
+]
+.pull-right[
+
+<i class="fas  fa-search fa-lg fa-fw " style="color:#e34a33;"></i> In this presentation I will focus on the subset of EHR pertaining to billing codes: ICD9, ICD10, and Phecodes.
+]
+![:space 4]()
+
+![:centerPic 35](https://securecdn.pymnts.com/wp-content/uploads/2018/03/bigdata.jpg) ![:small 0.6]([image source](https://www.pymnts.com/data/2018/datatorrent-jeff-bettencourt-real-time-big-data/))
+
+
+
+---
+# Biobanks
+
+![:space 6] 
+
+<i class="fas  fa-piggy-bank fa-lg fa-fw " style="color:#e34a33;"></i> Some hospitals have repositories of biological samples that can be matched to their EHR.
+
+![:space 8] 
+
+<i class="fas  fa-syringe fa-lg fa-fw " style="color:#e34a33;"></i> Data could be anything from plain unprocessed-plasma all the way to full single-cell sequencing. 
+
+![:space 8] 
+
+<i class="fas  fa-dna fa-lg fa-fw " style="color:#e34a33;"></i> Here I will focus on plain SNP-chip readings, aka presence or absence of a given marker at multiple points on the genome.
+
+
+---
+
+
+# PheWAS
+
+![:space 5] 
+
+
+In an effort to extract information from these data the technique PheWAS was made.
+
+![:space 8] 
+
+![:borderedCenterPic 80](figs/phewas-paper-head.png)
+
+
+---
+
+## Concept
+![:spacePx 5] 
+
+![:centerPic 70](figs/phewas-explainer.svg)
+
+
+---
+
+## The univariate problem
+
+![:space 15]
+
+<i class="fas  fa-hand-point-up fa-lg fa-fw " style="color:#e34a33;"></i> PheWAS looks at one genotype <i class="fas  fa-arrow-right "></i> phenotype association at a time.
+
+
+
+![:space 12]
+
+.pull-left[
+<i class="fas  fa-stream fa-lg fa-fw " style="color:#e34a33;"></i> This gives us the multiple-comparisons problem.
+]
+.pull-right[
+<i class="fas  fa-project-diagram fa-lg fa-fw " style="color:#e34a33;"></i>Also, does the world work like this? 
+]
+
+
+---
+
+
+# Changing how we  ![:colorText orangered](think about) these data
+
+![:centerPic 72](figs/obs-2-network.svg)
+
+---
+
+
+
+# What about ...?
+
+.pull-left[
+- Questions arise like "who are these people similar to and why?"
+
+- Deep Learning?
+  - Lack of interpretability
+  - Needs specialization for bipartite networks
+
+- Need to acknowledge the limitations of the data
+  - Use a model that fits the data
+]
+.pull-right[
+![:centerPic 100](figs/why_block_models.png)
+]
+
+
+
+---
+class: middle
+
+# The ![:colorText orangered](S)tochastic ![:colorText orangered](B)lock ![:colorText orangered](M)odel
+
+&gt; [Non-SBM attempts] express implicit modeling restrictions and assumptions in their output... Stochastic block models have the advantage of explicitly stating the underlying assumptions, which improves the interpretability of the results.
+
+---
+
+# In a nutshell
+
+.pull-left[
+
+![:spacePx 100]()
+
+Models the community structure of nodes by collapsing them into blocks
+
+![:spacePx 70]()
+
+Defines a probability distribution over all possible community forms
+  - Therefor is a 'generative' model
+]
+.pull-right[
+![:centerPic 100](figs/sbm_explained.png)
+]
+
+
+---
+
+
+# An equation for validity
+
+&lt;div style="margin-top:-75px;"&gt;
+![:centerPic 85](figs/sbm_formula.svg)
+&lt;/div&gt;
+
+---
+
+# That looks familiar...
+
+![:centerPic 30](figs/poisson_tattoo.png)
+
+
+---
+
+# How they're fit
+
+![:space 10]
+
+- Most often used as a bayesian model
+  - Uninformative priors on number of groups and group partitioning
+  - Get uncertainty directly from posterior
+  
+![:space 10]
+
+- Sometimes fit using expectation maximization
+  - For edge distributions that don't have nice posterior formulations
+  - Uncertainty usually not accessed but could be done through resampling techniques
+  
+
+---
+
+
+class: middle
+
+# Tools for using SBMs
+
+.pull-left[
+##[`Graph-Tool`](https://graph-tool.skewed.de/)
+- Python library
+- Lots and lots of features beyond SBMs
+
+##[`sbmR`](http://nickstrayer.me/sbmR/index.html)
+- R package
+- Focused just on SBMs
+- Actively developing
+]
+.pull-right[
+.center[.iconed[📦]]
+]
+
+	
+---
+
+class: middle
+
+# Using SBMs (with R)
+
+---
+
+# What exactly is `sbmR`?
+
+.pull-left[
+
+![:spacePx 90]
+
+- Native R package (kinda)
+
+- Fits SBMs
+
+- Investigates uncertainty of found structure by sampling from bayesian posterior
+
+- Provides (a growing list of) visualizations to communicate results
+
+![:spacePx 30]
+
+
+### [nickstrayer.me/sbmR/](http://nickstrayer.me/sbmR/)
+
+]
+
+.pull-right[
+.shadowed[
+![:centerPic 85](figs/sbmr_pkgdown.png)
+]
+]
+
+
+---
+class: middle
+
+# What is needed to use it?
+
+.pull-left[
+### Data
+
+.bullet_emoji[✔️] Data that can be represented as nodes and edges between those nodes
+- Patients with diagnoses
+- Genomes with mutations
+- Social relationships
+- ...
+
+.bullet_emoji[🚫] Does not (yet) support non-discrete edges
+- Correlations between variables
+- Distances between cities
+- ...
+]
+
+
+
+.pull-right[
+
+### __Mentality__
+
+
+.bullet_emoji[🍱] Interest in __how__ and __why__ your data cluster together
+
+![:spacePx 90]
+
+.bullet_emoji[⚖️] A desire to understand how stable clusters are
+
+]
+
+
+---
+
+class: middle, center
+
+## [Demo](http://nickstrayer.me/sbmR/articles/sampling_from_posterior.html)
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="macros.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:9",
+"highlightStyle": "github",
+"highlightLines": true,
+"slideNumberFormat": "nickstrayer.me/intro_to_sbms/#%current% of %total%"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
