@@ -1,4 +1,0 @@
-"0","my_sbm <- choose_best_collapse_state(my_sbm, collapse_results, heuristic = 'delta_ratio')"
-"2","Error in choose_best_collapse_state(my_sbm, collapse_results, heuristic = ""delta_ratio"") : 
-  could not find function ""choose_best_collapse_state""
-"
